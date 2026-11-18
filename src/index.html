@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Monday Widget</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="card">
+    <header data-tauri-drag-region>
+      <div class="title" data-tauri-drag-region>
+        <span class="dot" data-tauri-drag-region></span>
+        <span id="title" data-tauri-drag-region>Meus itens</span>
+        <span id="count" class="count" data-tauri-drag-region></span>
+      </div>
+      <div class="actions">
+        <button id="btn-refresh" title="Atualizar agora">
+          <svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.34-5.66M20 4v5h-5"/></svg>
+        </button>
+        <button id="btn-pin" title="Alternar entre fixo na área de trabalho e sempre visível">
+          <svg viewBox="0 0 24 24"><path d="M9 4h6l-1 6 3 3v2H7v-2l3-3-1-6zM12 15v5"/></svg>
+        </button>
+        <button id="btn-settings" title="Configurações">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
+        </button>
+        <button id="btn-hide" title="Ocultar (reabra pelo ícone na bandeja)">
+          <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Lista de itens -->
+    <main id="view-list">
+      <div id="banner" class="banner" hidden></div>
+      <ul id="items"></ul>
+      <div id="empty" class="empty" hidden></div>
+    </main>
+
+    <!-- Configurações -->
+    <main id="view-settings" hidden>
+      <form id="settings-form">
+        <label class="field">
+          <span>Token da API do monday</span>
+          <input id="token" type="password" autocomplete="off" spellcheck="false"
+                 placeholder="Cole aqui o token pessoal" />
+          <small id="token-hint">No monday: clique no seu avatar → <b>Developers</b> → <b>My access tokens</b> → <b>Show</b> e copie. Ele fica guardado no Gerenciador de Credenciais do Windows.</small>
+        </label>
+
+        <label class="field">
+          <span>Área de trabalho</span>
+          <select id="workspace">
+            <option value="">Todas as áreas (mais lento)</option>
+          </select>
+        </label>
+        <div id="board-picker" class="board-picker" hidden>
+          <span class="bp-title">Quadros desta área (nenhum marcado = todos):</span>
+          <input id="board-filter" type="text" placeholder="Filtrar quadros…" spellcheck="false" />
+          <div id="board-list" class="board-list"></div>
+          <div class="bp-foot">
+            <button type="button" id="bp-all" class="link">Marcar todos</button>
+            <button type="button" id="bp-none" class="link">Desmarcar todos</button>
+          </div>
+        </div>
+
+        <label class="field">
+          <span>Atualizar a cada</span>
+          <select id="interval">
+            <option value="2">2 minutos</option>
+            <option value="5">5 minutos</option>
+            <option value="10">10 minutos</option>
+            <option value="15">15 minutos</option>
+            <option value="30">30 minutos</option>
+          </select>
+        </label>
+
+        <label class="check"><input id="show-done" type="checkbox" /> Mostrar itens concluídos</label>
+        <label class="check"><input id="show-unassigned" type="checkbox" /> Mostrar tarefas sem responsável</label>
+        <label class="check"><input id="autostart" type="checkbox" /> Iniciar com o Windows</label>
+
+        <div class="row">
+          <button type="submit" class="primary">Salvar</button>
+          <button type="button" id="btn-cancel">Voltar</button>
+          <button type="button" id="btn-clear" class="danger">Remover token</button>
+        </div>
+        <p id="settings-msg" class="msg"></p>
+      </form>
+    </main>
+
+    <footer data-tauri-drag-region>
+      <span id="status" data-tauri-drag-region></span>
+      <span id="grip" class="grip" title="Redimensionar"></span>
+    </footer>
+  </div>
+  <script src="common.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
